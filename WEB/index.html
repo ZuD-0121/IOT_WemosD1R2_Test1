@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            button{
+                background: powderblue;
+            }
+            .main{
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 250px;
+                height: 350px;
+                border-radius: 20px;
+                margin-top: -250px;
+                margin-left: -250px;
+                background: rgba(119, 227, 247, 0.904);
+            }
+            .form-btn span{
+                font-weight: bold;
+                flex: auto;
+                color: rgb(19, 19, 19);
+                cursor: pointer;
+                width: 120px;
+                display: inline-block;
+                text-align: center;
+                line-height: 40px;
+            }
+            .form-btn {
+                display: inline-flex;
+                width: 100%;
+            }
+            .sign_in_table{
+                position: absolute;
+                visibility: visible;
+                margin-top: 15px;
+                margin-left: 5px;
+                
+            }
+            .create_table{
+                visibility: hidden;
+                margin-top: 15px;
+                margin-left: 5px;
+            }
+            .sign_in_table div,.create_table div{
+                font-weight: bold;
+                
+            }
+
+            .sign_in_table input,.create_table input{
+                width: 200px;
+                height: 30px;
+                margin: 10px 10px;
+                padding: 0 10px;
+                border: 1px solid #ccc;
+                
+            }
+            #loginBtn,#c_createBtn{
+                width: 95%;
+                background: rgba(245, 220, 81, 0.959);
+                font-weight: bold;
+                cursor: pointer;
+                margin: 10px 0;
+                border-radius: 10px;
+            }
+            #message{
+                font-weight: bold;
+                color: rgb(250, 44, 44);
+                width: 100%;
+                display: inline-block;
+                text-align: center;
+                line-height: 40px;
+                text-align: center;
+            }
+            .si{
+                background-color: rgb(255, 196, 0);
+                border-top-left-radius: 20px;
+            }
+            .ci{
+                background-color: rgb(255, 196, 0);
+                border-top-right-radius: 20px;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="main">
+            <div class="form-btn">
+                    <span id="signin" class="si">Login</span>
+                    <span id="createacc" >Register</span>
+            </div>
+            <div class="sign_in_table" id="sign_in_table">
+                <div>Account:<br>
+                    <input id="account" type="text" placeholder="your account">
+                </div>
+                <div>Password:<br>
+                    <input id="password" type="text" placeholder="your password">
+                </div>
+                <button id="loginBtn">login</button>
+            </div>
+            <div class="create_table" id="create_table">
+                <div>Account:<br>
+                    <input id="c_account" type="text" placeholder="your account">
+                </div>
+                <div>Password:<br>
+                    <input id="c_password" type="text" placeholder="your password">
+                </div>
+                <div>User Name:<br>
+                    <input id="c_User_Name" type="text" placeholder="your nick-name">
+                </div>
+                <button id="c_createBtn">continue</button>
+            </div>
+        <div id="message">message</div>
+        </div>
+
+        
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+        
+        <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+        apiKey: "AIzaSyB6TtkftKVmTVNM3bmzKkXSgmQzAxUUlKI",
+        authDomain: "iot-course-daf7d.firebaseapp.com",
+        projectId: "iot-course-daf7d",
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        //Variable
+        var db=firebase.firestore();
+        const account=document.getElementById('account');
+        const password=document.getElementById('password');
+        const message=document.getElementById('message');
+        const loginBtn=document.getElementById('loginBtn');
+        const c_username=document.getElementById('c_User_Name');
+        const c_account=document.getElementById('c_account');
+        const c_password=document.getElementById('c_password');
+        const createBtn=document.getElementById('c_createBtn');
+        const si=document.getElementById('signin');
+        const cr=document.getElementById('createacc');
+        
+        //Listen
+        loginBtn.addEventListener('click',()=>{
+            var checkAcc=account.value;
+            var checkPwd=password.value;
+            checkAccount(checkAcc,checkPwd);
+        });
+        createBtn.addEventListener('click',()=>{
+            var createAcc=c_account.value;
+            var createPwd=c_password.value;
+            var createName=c_username.value;
+            if(createAcc==""){
+                message.innerHTML="請填寫帳號"; 
+            }else if(createPwd==""){
+                message.innerHTML="請填寫密碼"; 
+            }else if(createName==""){
+                message.innerHTML="請填寫暱稱";
+            }else{
+                createAccount(createAcc,createPwd,createName);
+            }
+        });
+        si.addEventListener('click',()=>{
+            document.getElementById('sign_in_table').style.visibility="visible";
+            document.getElementById('create_table').style.visibility="hidden";
+            document.getElementById("signin").classList.add("si");
+            document.getElementById("createacc").classList.remove("ci");
+        });
+        cr.addEventListener('click',()=>{
+            document.getElementById('sign_in_table').style.visibility="hidden";
+            document.getElementById('create_table').style.visibility="visible";
+            document.getElementById("signin").classList.remove("si");
+            document.getElementById("createacc").classList.add("ci");
+        });
+
+
+
+
+        //function
+        function checkAccount(acc,pwd){
+            db.collection('IoT_Topic').doc(acc).get().then((snap)=>{
+                if(pwd==snap.data().password){
+                    self.location.href=location.href+"sechtml.html"; 
+                }else{
+                    message.innerHTML=pwd+"密碼錯誤";
+                }
+            }).catch(()=>{
+                message.innerHTML="帳號不存在";  
+            });  
+        };
+        function createAccount(acc,pwd,name){
+            db.collection('IoT_Topic').doc(acc).get().then((snap)=>{
+                message.innerHTML=snap.data().account+"帳號已存在";
+            }).catch(()=>{
+                db.collection('IoT_Topic').doc(acc).set({
+                    account: acc,
+                    password: pwd,
+                    username: name
+                }).then(()=>{
+                    message.innerHTML=acc+"註冊完成";
+                });
+            });
+        };
+        </script>
+    </body>
+</html>

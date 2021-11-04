@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <h1>溫溼度監控及燈泡亮度控制</h1>
+        </header>
+        <article class="HT">
+        <div class="water_content">
+            <div class="waterGrid">
+                <div>
+                    <span class="material-icons outlined">water_drop</span>
+                    <span class="material-icons outlined">water_drop</span>
+                </div>
+                <div>
+                    <p>Humidity:</p><p id="waterValue">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="thermostat_content">
+            <div class="TempGrid">
+                <div>
+                    <span class="material-icons outlined">device_thermostat</span>
+                    <span class="material-icons outlined">device_thermostat</span>
+                </div>
+                <div>
+                    <p>Temperature:</p><p id="tempValue">0</p>
+                </div>
+            </div>
+        </div>
+        </article>
+        <article class="Light">
+            <div class="LedPic">
+                <span class="material-icons outlined">lightbulb</span>
+            </div>
+            <div class="LS">
+                <div class="Light_btn">
+                    <input type="checkbox" name="btn" class="Light_Dark_Button_1" id="ledCheck"> 
+                </div>
+                <div class="RS">
+                    <div class="Range_Slider_1_grid">
+                        <div class="Range_Slider_1_value">
+                            <span id="Range_Slider_1_span">100</span>
+                        </div>
+                        <div class="Range_Slider_1_body">
+                            <input type="range" min="1" max="100" value="1" class="Range_Slider_1" id="Range_Slider_1_input" disabled> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+
+        <script>
+            const slideValue = document.getElementById("Range_Slider_1_span");
+            const inputSlider = document.getElementById("Range_Slider_1_input");
+
+            window.addEventListener("load", function() {
+                getH();
+                getT();
+                window.setInterval(getH,60000);
+                window.setInterval(getT,60000);
+                });
+
+            inputSlider.oninput = (()=>{
+                let value = inputSlider.value;
+                slideValue.textContent = value;
+                slideValue.classList.add("show");
+                document.documentElement.style.setProperty("--lival",value+'px');
+            });
+            inputSlider.onblur=(()=>{
+                slideValue.classList.remove("show");
+                let value = inputSlider.value;
+                var oReq = new XMLHttpRequest();
+                    oReq.open("POST",location.href+"?ledon="+value)
+                    oReq.send();
+            });
+            
+            a=document.getElementById('ledCheck');
+            a.addEventListener("click",ta);
+            function ta(){
+                let value = inputSlider.value;
+                if(a.checked==true){
+                    document.documentElement.style.setProperty("--licolor",'#FC0');
+                    document.documentElement.style.setProperty("--lival",value+'px');
+                    document.getElementById('Range_Slider_1_input').disabled=false;
+                    var oReq = new XMLHttpRequest();
+                    oReq.open("POST",location.href+"?ledon="+value);
+                    oReq.send();
+                }else{
+                    document.documentElement.style.setProperty("--licolor",'threedshadow');
+                    document.documentElement.style.setProperty("--lival",'0px');
+                    document.getElementById('Range_Slider_1_input').disabled=true;
+                    var oReq = new XMLHttpRequest();
+                    oReq.open("POST",location.href+"?ledoff=0")
+                    oReq.send();
+                }
+            }
+
+            function getH(){
+                var oReq = new XMLHttpRequest();
+                    oReq.open("POST",location.href+"?h=on",false)
+                    oReq.send();
+                var hdata=oReq.responseText;
+                var waterH=hdata*1;
+                document.documentElement.style.setProperty("--water-high",(waterH-35)+"%");
+                document.getElementById("waterValue").innerHTML=waterH;
+            }
+            function getT(){
+                var oReq = new XMLHttpRequest();
+                    oReq.open("POST",location.href+"?y=on",false)
+                    oReq.send();
+                var ydata=oReq.responseText;
+                var tempH=ydata*1;
+                document.documentElement.style.setProperty("--temp-high",tempH+"%");
+                document.getElementById("tempValue").innerHTML=tempH;
+            }
+        </script>
+    </body>
+</html>

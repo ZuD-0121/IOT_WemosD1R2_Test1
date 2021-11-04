@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Icons');
+:root{
+    --water-high: -35%;
+    --temp-high: 0%;
+    --lival: 0px;
+    --licolor: threedshadow;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+h1{
+    border: solid graytext;
+    width: 600px;
+    text-align: center;
+}
+article{
+    width: 600px;
+    border: solid graytext;
+}
+
+/*section 1*/
+
+.HT{
+    display: flex;
+    justify-content:space-evenly;
+}
+
+.water_content{
+    position: relative;
+    margin: 20px;
+    box-shadow: 0 0 5px #0033ff;
+}
+
+.waterGrid div:last-child{
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    justify-content: center;
+    align-content: center;
+    text-align:center
+}
+
+.water_content .waterGrid{
+    display: grid;
+    grid-template-columns: 75px 1fr;
+    justify-content: center;
+    height: 100px;
+    width: 250px;
+    border-color: #0033ff;
+    background: #fff;
+    box-shadow: inset 0 0 2em #03a9f4;
+}
+#waterValue{ 
+    text-align: left;
+    font-size: 20px;
+    font-family: monospace;
+    font-style: oblique;
+    color: #03a9f4;
+}
+.water_content span{
+    position: absolute;
+    top: 50px;
+    left: 40px;
+    color: #fff;
+    transform: translate(-50%,-50%);
+    font-size: 4em;
+}
+
+.water_content span:nth-child(1){
+    color: transparent;
+    -webkit-text-stroke: 1px #03a9f4;
+}
+.water_content span:nth-child(2){ 
+    color: #03a9f4;
+    animation: water_animate 7s ease-in-out infinite;
+}
+
+@keyframes water_animate{
+    0%,100%{
+        clip-path: polygon(0 calc(46% - var(--water-high)), 20% calc(48% - var(--water-high)), 35% calc(53% - var(--water-high)), 50% calc(63% - var(--water-high)),
+            66% calc(66% - var(--water-high)), 81% calc(62% - var(--water-high)), 100% calc(55% - var(--water-high)), 100% 100%, 0% 100%);
+    }
+        50%{
+        clip-path: polygon(0 calc(56% - var(--water-high)), 18% calc(57% - var(--water-high)), 34% calc(65% - var(--water-high)), 52% calc(63% - var(--water-high)),
+            67% calc(54% - var(--water-high)), 82% calc(47% - var(--water-high)), 100% calc(46% - var(--water-high)), 100% 100%, 0% 100%);
+    }
+}
+
+.thermostat_content{
+    position: relative;
+    margin: 20px;
+    box-shadow: 0 0 5px #ff0033;
+}
+
+.TempGrid div:last-child{
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    
+}
+.thermostat_content .TempGrid{
+    display: grid;
+    grid-template-columns: 65px 1fr;
+    justify-content: center;
+    height: 100px;
+    width: 250px;
+    border-color: #cc0000;
+    background: #fff;
+    box-shadow: inset 0 0 2em #ff0000;
+}
+#tempValue{ 
+    margin-left: 5px; 
+    text-align: left;
+    font-size: 20px;
+    font-family: monospace;
+    font-style: oblique;
+    color: #ff0000;
+}
+.thermostat_content span{
+    position: absolute;
+    top: 50px;
+    left: 40px;
+    color: #fff;
+    transform: translate(-50%,-50%);
+    font-size: 4em;
+}
+
+.thermostat_content span:nth-child(1){
+    color: transparent;
+    -webkit-text-stroke: 1px #ff0000;
+}
+.thermostat_content span:nth-child(2){ 
+    color: #ff0000;
+    clip-path: polygon(0 calc(100% - var(--temp-high)), 100% calc(100% - var(--temp-high)), 100% 100%, 0% 100%);
+   /* animation: temp_animate 7s ease-in-out infinite;*/
+}
+
+@keyframes temp_animate{
+    0%,100%{
+        clip-path: polygon(0 calc(46% - var(--temp-high)), 20% calc(48% - var(--temp-high)), 35% calc(53% - var(--temp-high)), 50% calc(63% - var(--temp-high)),
+            66% calc(66% - var(--temp-high)), 81% calc(62% - var(--temp-high)), 100% calc(55% - var(--temp-high)), 100% 100%, 0% 100%);
+    }
+        50%{
+        clip-path: polygon(0 calc(56% - var(--temp-high)), 18% calc(57% - var(--temp-high)), 34% calc(65% - var(--temp-high)), 52% calc(63% - var(--temp-high)),
+            67% calc(54% - var(--temp-high)), 82% calc(47% - var(--temp-high)), 100% calc(46% - var(--temp-high)), 100% 100%, 0% 100%);
+    }
+}
+/*section 2*/
+.LS{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.Light{
+    display: flex;
+    flex-direction: column;
+}
+
+/*light button*/
+
+input[type="checkbox"].Light_Dark_Button_1{
+    position: relative;
+    width: 90px;
+    height: 30px;
+    background: #111;
+    -webkit-appearance: none;
+    cursor: pointer;
+    border-radius: 30px;
+    box-shadow: -5px -5px 20px rgba(255, 255, 255, 0.1),
+                5px 5px 10px rgba(0, 0, 0, 1),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.1),
+                inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+                0 0 0 2px #1f1f1f;
+    transition: 0.5s;
+}
+/*
+input[type="checkbox"].as:checked{
+    background: rgba(0, 68, 255, 0.836);
+}*/
+input[type="checkbox"].Light_Dark_Button_1::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 67%;
+    height: 100%;
+    background: linear-gradient(to top,#000,#555);
+    border-radius: 40px;
+    box-shadow: 0 0 0 1px #232323;
+    transform: scale(0.98,0.96);
+    transition: 0.5s;
+}
+input[type="checkbox"].Light_Dark_Button_1:checked::before{
+    left: 33%;
+}
+input[type="checkbox"].Light_Dark_Button_1::after{
+    content: "\e430";
+    font-family: 'Material Icons';
+    position: absolute;
+    font-size: 15px;
+    top: calc(50% - 8px);
+    left: 43%;
+    color: #555;
+    border-radius: 50%;
+    transition: 0.5s;
+}
+input[type="checkbox"].Light_Dark_Button_1:checked::after{
+    left: calc(50% + 25%);
+    color: rgb(250, 208, 92);
+    background-color: rgba(250, 242, 207, 0.4);
+    box-shadow: 0 0 10px 0.5px beige;
+}
+
+.Light_btn{
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.089);
+}
+
+/*LedPic*/
+.LedPic{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    background: #232323;
+}
+.LedPic span{
+    position: relative;
+    font-size: 200px;
+    color: var(--licolor);
+    text-shadow: var(--licolor) 1px 0 var(--lival);
+    transition: 0.5s;
+}
+
+/* silde*/
+.RS{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 70px;
+}
+.Range_Slider_1_grid{
+    height: 80px;
+    width: 400px;
+    padding: 0 65px 0 45px ;
+}
+
+.Range_Slider_1_value{
+    position: relative;
+    width: 100%;
+}
+.Range_Slider_1_value span{
+    position: absolute;
+    height: 30px;
+    width: 50px;
+    color: #111;
+    font-weight: 800;
+    font-size: 50px;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease-in-out;
+    z-index: 2;
+    bottom: 160px;
+}
+
+.Range_Slider_1_value span.show{
+    transform: translateX(-50%) scale(1);
+}
+
+.Range_Slider_1_body{
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+input[type="range"].Range_Slider_1{
+    position: relative;
+    -webkit-appearance: none;
+    height: 3px;
+    width: 100%;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+
+input[type="range"].Range_Slider_1::before {
+    content: "1%";
+    position: absolute;
+    left: -30px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f1f1f;
+    bottom: -8px;
+}
+
+input[type="range"].Range_Slider_1::after {
+    content: "100%";
+    position: absolute;
+    right: -50px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f1f1f;
+    bottom: -8px;
+}
+
+input[type="range"].Range_Slider_1::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 15px;
+    width: 15px;
+    background: var(--licolor);
+    border-radius: 50%;
+    border: 1px solid var(--licolor);
+    cursor: pointer;
+}
